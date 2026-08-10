@@ -1,0 +1,122 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model cargo {
+  id           Int            @id @default(autoincrement())
+  nome         String?        @db.VarChar(45)
+  funcionarios funcionarios[]
+}
+
+model cliente {
+  id       Int      @id @default(autoincrement())
+  cpf      String?  @db.VarChar(15)
+  nome     String?  @db.VarChar(100)
+  contato  Int?
+  endereco String?  @db.VarChar(150)
+  email    String?  @db.VarChar(50)
+  vendas   vendas[]
+}
+
+model departamento {
+  id           Int            @id @default(autoincrement())
+  nome         String?        @db.VarChar(45)
+  funcionarios funcionarios[]
+}
+
+model endereco {
+  id           Int            @id @default(autoincrement())
+  logradouro   String?        @db.VarChar(45)
+  numero       Int?
+  cidade       String?        @db.VarChar(45)
+  estado       String?        @db.VarChar(45)
+  bairro       String?        @db.VarChar(45)
+  cep          String?        @db.VarChar(45)
+  funcionarios funcionarios[]
+}
+
+model funcionarios {
+  id              Int          @id @default(autoincrement())
+  nome            String?      @db.VarChar(100)
+  cpf             String?      @db.VarChar(15)
+  rg              String?      @db.VarChar(15)
+  data_nasc       DateTime?    @db.Date
+  estado_civil    String?      @db.VarChar(10)
+  contato         Int?
+  endereco_id     Int
+  cargo_id        Int
+  departamento_id Int
+  cargo           cargo        @relation(fields: [cargo_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_funcionarios_cargo1")
+  departamento    departamento @relation(fields: [departamento_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_funcionarios_departamento1")
+  endereco        endereco     @relation(fields: [endereco_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_funcionarios_endereco1")
+  vendas          vendas[]
+
+  @@index([cargo_id], map: "fk_funcionarios_cargo1_idx")
+  @@index([departamento_id], map: "fk_funcionarios_departamento1_idx")
+  @@index([endereco_id], map: "fk_funcionarios_endereco1_idx")
+}
+
+model itemvenda {
+  id          Int      @id @default(autoincrement())
+  quantidade  Float?   @db.Float
+  preco       Float?   @db.Float
+  vendas_id   Int
+  produtos_id Int
+  produtos    produtos @relation(fields: [produtos_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_itemvenda_produtos1")
+  vendas      vendas   @relation(fields: [vendas_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_itemvenda_vendas1")
+
+  @@index([produtos_id], map: "fk_itemvenda_produtos1_idx")
+  @@index([vendas_id], map: "fk_itemvenda_vendas1_idx")
+}
+
+model pagamentos {
+  id                     Int       @id @default(autoincrement())
+  metodo_pagamento       String?   @db.VarChar(15)
+  valo_pagamento         Float?    @db.Float
+  status_pagamento       String?   @db.VarChar(20)
+  data_pagamento         DateTime? @db.Date
+  id_transa__o_operadora Int?      @map("id_transação_operadora")
+  mensagem_retorno       String?   @db.TinyText
+  vendas_id              Int
+  vendas                 vendas    @relation(fields: [vendas_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_pagamentos_vendas1")
+
+  @@index([vendas_id], map: "fk_pagamentos_vendas1_idx")
+}
+
+model produtos {
+  id         Int         @id @default(autoincrement())
+  nome       String?     @db.VarChar(50)
+  quantidade Float?      @db.Float
+  tipo       String?     @db.VarChar(45)
+  preco      Float?      @db.Float
+  itemvenda  itemvenda[]
+}
+
+model transportadoras {
+  id      Int      @id @default(autoincrement())
+  nome    String?  @db.VarChar(50)
+  contato Int?
+  vendas  vendas[]
+}
+
+model vendas {
+  id                 Int             @id @default(autoincrement())
+  id_status          String?         @db.VarChar(20)
+  cliente_id         Int
+  transportadoras_id Int
+  funcionarios_id    Int
+  itemvenda          itemvenda[]
+  pagamentos         pagamentos[]
+  cliente            cliente         @relation(fields: [cliente_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_vendas_cliente")
+  funcionarios       funcionarios    @relation(fields: [funcionarios_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_vendas_funcionarios1")
+  transportadoras    transportadoras @relation(fields: [transportadoras_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_vendas_transportadoras1")
+
+  @@index([cliente_id], map: "fk_vendas_cliente_idx")
+  @@index([funcionarios_id], map: "fk_vendas_funcionarios1_idx")
+  @@index([transportadoras_id], map: "fk_vendas_transportadoras1_idx")
+}
