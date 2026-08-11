@@ -33,7 +33,8 @@ export class ClientesService {
     return cliente;
   }
 
-  update(id: number, updateClienteDto: UpdateClienteDto) {
+    async update(id: number, updateClienteDto: UpdateClienteDto) {
+    await this.findOne(id);
     const { vendas, ...clienteData } = updateClienteDto as any;
 
     return this.prisma.cliente.update({
@@ -44,7 +45,8 @@ export class ClientesService {
     });
   }
 
-  remove(id: number) {
+   async remove(id: number) {
+    await this.findOne(id);
     return this.prisma.cliente.delete({
       where: {
         id: id,
