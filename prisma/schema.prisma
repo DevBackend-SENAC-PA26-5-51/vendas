@@ -18,7 +18,7 @@ model cliente {
   id       Int      @id @default(autoincrement())
   cpf      String?  @db.VarChar(15)
   nome     String?  @db.VarChar(100)
-  contato  Int?
+  contato  String?  @db.VarChar(20)
   endereco String?  @db.VarChar(150)
   email    String?  @db.VarChar(50)
   vendas   vendas[]
@@ -48,7 +48,7 @@ model funcionarios {
   rg              String?      @db.VarChar(15)
   data_nasc       DateTime?    @db.Date
   estado_civil    String?      @db.VarChar(10)
-  contato         Int?
+  contato         String?      @db.VarChar(20)
   endereco_id     Int
   cargo_id        Int
   departamento_id Int
@@ -101,7 +101,7 @@ model produtos {
 model transportadoras {
   id      Int      @id @default(autoincrement())
   nome    String?  @db.VarChar(50)
-  contato Int?
+  contato String?  @db.VarChar(20)
   vendas  vendas[]
 }
 

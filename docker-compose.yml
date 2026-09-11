@@ -6,7 +6,7 @@ services:
     container_name: vendas_api
     restart: unless-stopped
     ports:
-      - "${PORT:-5000}:5000"
+      - '${PORT:-5000}:5000'
     environment:
       NODE_ENV: production
       PORT: 5000
@@ -14,6 +14,19 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+
+  migrate:
+    build: .
+    container_name: vendas-migrate
+    restart: 'no'
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: mysql://root:root@db:3306/vendas
+    command: ['npx', 'prisma', 'migrate', 'deploy']
 
   db:
     image: mariadb:11.4
@@ -23,14 +36,25 @@ services:
       MARIADB_ROOT_PASSWORD: root
       MARIADB_DATABASE: vendas
     ports:
-      - "3306:3306"
+      - '3306:3306'
     volumes:
       - mariadb_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "root", "-proot"]
-      interval: 5s
+      test:
+        [
+          'CMD',
+          'mariadb-admin',
+          'ping',
+          '-h',
+          'localhost',
+          '-u',
+          'root',
+          '-proot',
+        ]
+      interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 20s
 
 volumes:
   mariadb_data:

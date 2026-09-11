@@ -67,4 +67,5 @@ EXPOSE 5000
 ENTRYPOINT ["dumb-init", "--"]
 
 # Execução da aplicação em produção
-CMD ["sh", "-c", "if [ -f dist/main.js ]; then node dist/main.js; else node dist/src/main.js; fi"]
+# CMD ["sh", "-c", "if [ -f dist/main.js ]; then node dist/main.js; else node dist/src/main.js; fi"]
+CMD ["node", "dist/src/main.js"]
