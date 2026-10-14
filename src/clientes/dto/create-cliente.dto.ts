@@ -18,11 +18,39 @@ export class CreateClienteDto {
   contato?: string;
 
   @ApiProperty({
-    description: 'Endereço do cliente',
-    example: 'Rua das Flores, 123 - São Paulo/SP',
+    description: 'Rua do endereço do cliente',
+    example: 'Rua das Flores',
     required: false,
   })
-  endereco?: string;
+  rua?: string;
+
+  @ApiProperty({
+    description: 'Número da casa do endereço do cliente',
+    example: 123,
+    required: false,
+  })
+  numero?: number;
+
+  @ApiProperty({
+    description: 'Complemento do endereço do cliente',
+    example: 'Apto 101',
+    required: false,
+  })
+  complemento?: string;
+
+  @ApiProperty({
+    description: 'Cidade do endereço do cliente',
+    example: 'São Paulo',
+    required: false,
+  })
+  cidade?: string;
+
+  @ApiProperty({
+    description: 'Estado do endereço do cliente',
+    example: 'SP',
+    required: false,
+  })
+  estado?: string;
 
   @ApiProperty({
     description: 'E-mail do cliente',
