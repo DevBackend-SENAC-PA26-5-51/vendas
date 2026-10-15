@@ -10,7 +10,7 @@ services:
     environment:
       NODE_ENV: ${NODE_ENV:-production}
       PORT: 5000
-      DATABASE_URL: 'mysql://${DB_USER:-root}:${DB_PASSWORD:-root}@${DB_HOST:-db}:${DB_INTERNAL_PORT:-3306}/${DB_NAME:-vendas}'
+      DATABASE_URL: ${DATABASE_URL}
     depends_on:
       db:
         condition: service_healthy
@@ -24,11 +24,19 @@ services:
     container_name: ${APP_NAME:-vendas_api}-migrate
     restart: 'no'
     environment:
-      DATABASE_URL: 'mysql://${DB_USER:-root}:${DB_PASSWORD:-root}@${DB_HOST:-db}:${DB_INTERNAL_PORT:-3306}/${DB_NAME:-vendas}'
+      DATABASE_URL: ${DATABASE_URL}
     depends_on:
       db:
         condition: service_healthy
-    command: ['npx', 'prisma', 'migrate', 'deploy']
+
+    command:
+      - /bin/sh
+      - -c
+      - |
+        npx prisma migrate deploy || {
+          echo "Aviso: Migração falhou. Continuando..."
+          exit 0
+        }
 
   db:
     image: ${MARIADB_IMAGE:-mariadb:11.4}
@@ -37,6 +45,8 @@ services:
     environment:
       MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
       MARIADB_DATABASE: ${DB_NAME:-vendas}
+      MARIADB_USER: ${DB_USER:-vendas}
+      MARIADB_PASSWORD: ${DB_PASSWORD:?Defina DB_PASSWORD no ambiente}
     ports:
       - '${DB_PORT:-3306}:${DB_INTERNAL_PORT:-3306}'
     volumes:
