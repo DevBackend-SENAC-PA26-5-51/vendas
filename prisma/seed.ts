@@ -23,18 +23,37 @@ async function main() {
 
   // Tabelas independentes
   const [vendedor, gerente] = await Promise.all([
-    prisma.cargo.create({ data: { nome: 'Vendedor' } }),
-    prisma.cargo.create({ data: { nome: 'Gerente de Vendas' } }),
+    prisma.cargo.upsert({
+      where: { id: 1 },
+      update: {},
+      create: { id: 1, nome: 'Vendedor' },
+    }),
+    prisma.cargo.upsert({
+      where: { id: 2 },
+      update: {},
+      create: { id: 2, nome: 'Gerente de Vendas' },
+    }),
   ]);
 
   const [comercial, logistica] = await Promise.all([
-    prisma.departamento.create({ data: { nome: 'Comercial' } }),
-    prisma.departamento.create({ data: { nome: 'Logística' } }),
+    prisma.departamento.upsert({
+      where: { id: 1 },
+      update: {},
+      create: { id: 1, nome: 'Comercial' },
+    }),
+    prisma.departamento.upsert({
+      where: { id: 2 },
+      update: {},
+      create: { id: 2, nome: 'Logística' },
+    }),
   ]);
 
   const [endereco1, endereco2] = await Promise.all([
-    prisma.endereco.create({
-      data: {
+    prisma.endereco.upsert({
+      where: { id: 1 },
+      update: {},
+      create: {
+        id: 1,
         logradouro: 'Rua das Flores',
         numero: 123,
         cidade: 'São Paulo',
@@ -43,8 +62,11 @@ async function main() {
         cep: '01001-000',
       },
     }),
-    prisma.endereco.create({
-      data: {
+    prisma.endereco.upsert({
+      where: { id: 2 },
+      update: {},
+      create: {
+        id: 2,
         logradouro: 'Av. Paulista',
         numero: 1000,
         cidade: 'São Paulo',
@@ -56,8 +78,11 @@ async function main() {
   ]);
 
   const [cliente1, cliente2, cliente3] = await Promise.all([
-    prisma.cliente.create({
-      data: {
+    prisma.cliente.upsert({
+      where: { id: 1 },
+      update: {},
+      create: {
+        id: 1,
         cpf: '123.456.789-00',
         nome: 'Maria Silva',
         contato: '(11) 98765-4321',
@@ -68,8 +93,11 @@ async function main() {
         email: 'maria.silva@email.com',
       },
     }),
-    prisma.cliente.create({
-      data: {
+    prisma.cliente.upsert({
+      where: { id: 2 },
+      update: {},
+      create: {
+        id: 2,
         cpf: '987.654.321-00',
         nome: 'João Santos',
         contato: '(11) 97654-3210',
@@ -80,8 +108,11 @@ async function main() {
         email: 'joao.santos@email.com',
       },
     }),
-    prisma.cliente.create({
-      data: {
+    prisma.cliente.upsert({
+      where: { id: 3 },
+      update: {},
+      create: {
+        id: 3,
         cpf: '111.222.333-44',
         nome: 'Ana Oliveira',
         contato: '(11) 96543-2109',
@@ -95,33 +126,48 @@ async function main() {
   ]);
 
   const [camiseta, calca, tenis, bone] = await Promise.all([
-    prisma.produtos.create({
-      data: { nome: 'Camiseta Básica', quantidade: 100, tipo: 'Vestuário', preco: 49.9 },
+    prisma.produtos.upsert({
+      where: { id: 1 },
+      update: {},
+      create: { id: 1, nome: 'Camiseta Básica', quantidade: 100, tipo: 'Vestuário', preco: 49.9 },
     }),
-    prisma.produtos.create({
-      data: { nome: 'Calça Jeans', quantidade: 50, tipo: 'Vestuário', preco: 129.9 },
+    prisma.produtos.upsert({
+      where: { id: 2 },
+      update: {},
+      create: { id: 2, nome: 'Calça Jeans', quantidade: 50, tipo: 'Vestuário', preco: 129.9 },
     }),
-    prisma.produtos.create({
-      data: { nome: 'Tênis Esportivo', quantidade: 30, tipo: 'Calçados', preco: 199.9 },
+    prisma.produtos.upsert({
+      where: { id: 3 },
+      update: {},
+      create: { id: 3, nome: 'Tênis Esportivo', quantidade: 30, tipo: 'Calçados', preco: 199.9 },
     }),
-    prisma.produtos.create({
-      data: { nome: 'Boné', quantidade: 5, tipo: 'Acessórios', preco: 29.9 },
+    prisma.produtos.upsert({
+      where: { id: 4 },
+      update: {},
+      create: { id: 4, nome: 'Boné', quantidade: 5, tipo: 'Acessórios', preco: 29.9 },
     }),
   ]);
 
   const [transportadora1, transportadora2] = await Promise.all([
-    prisma.transportadoras.create({
-      data: { nome: 'Transportes Rápidos', contato: '(11) 3333-4444' },
+    prisma.transportadoras.upsert({
+      where: { id: 1 },
+      update: {},
+      create: { id: 1, nome: 'Transportes Rápidos', contato: '(11) 3333-4444' },
     }),
-    prisma.transportadoras.create({
-      data: { nome: 'Entrega Express', contato: '(11) 5555-6666' },
+    prisma.transportadoras.upsert({
+      where: { id: 2 },
+      update: {},
+      create: { id: 2, nome: 'Entrega Express', contato: '(11) 5555-6666' },
     }),
   ]);
 
   // Funcionários (dependem de cargo, departamento e endereço)
   const [funcionario1, funcionario2] = await Promise.all([
-    prisma.funcionarios.create({
-      data: {
+    prisma.funcionarios.upsert({
+      where: { id: 1 },
+      update: {},
+      create: {
+        id: 1,
         nome: 'Carlos Vendedor',
         cpf: '222.333.444-55',
         rg: '12.345.678-9',
@@ -133,8 +179,11 @@ async function main() {
         departamento_id: comercial.id,
       },
     }),
-    prisma.funcionarios.create({
-      data: {
+    prisma.funcionarios.upsert({
+      where: { id: 2 },
+      update: {},
+      create: {
+        id: 2,
         nome: 'Fernanda Gerente',
         cpf: '333.444.555-66',
         rg: '98.765.432-1',
@@ -150,24 +199,33 @@ async function main() {
 
   // Vendas (dependem de cliente, transportadora e funcionário)
   const [venda1, venda2, venda3] = await Promise.all([
-    prisma.vendas.create({
-      data: {
+    prisma.vendas.upsert({
+      where: { id: 1 },
+      update: {},
+      create: {
+        id: 1,
         id_status: 'concluida',
         cliente_id: cliente1.id,
         transportadoras_id: transportadora1.id,
         funcionarios_id: funcionario1.id,
       },
     }),
-    prisma.vendas.create({
-      data: {
+    prisma.vendas.upsert({
+      where: { id: 2 },
+      update: {},
+      create: {
+        id: 2,
         id_status: 'pendente',
         cliente_id: cliente2.id,
         transportadoras_id: transportadora2.id,
         funcionarios_id: funcionario1.id,
       },
     }),
-    prisma.vendas.create({
-      data: {
+    prisma.vendas.upsert({
+      where: { id: 3 },
+      update: {},
+      create: {
+        id: 3,
         id_status: 'concluida',
         cliente_id: cliente3.id,
         transportadoras_id: transportadora1.id,
@@ -178,24 +236,35 @@ async function main() {
 
   // Itens de venda (dependem de venda e produto)
   await Promise.all([
-    prisma.itemvenda.create({
-      data: { quantidade: 2, preco: 49.9, vendas_id: venda1.id, produtos_id: camiseta.id },
+    prisma.itemvenda.upsert({
+      where: { id: 1 },
+      update: {},
+      create: { id: 1, quantidade: 2, preco: 49.9, vendas_id: venda1.id, produtos_id: camiseta.id },
     }),
-    prisma.itemvenda.create({
-      data: { quantidade: 1, preco: 129.9, vendas_id: venda1.id, produtos_id: calca.id },
+    prisma.itemvenda.upsert({
+      where: { id: 2 },
+      update: {},
+      create: { id: 2, quantidade: 1, preco: 129.9, vendas_id: venda1.id, produtos_id: calca.id },
     }),
-    prisma.itemvenda.create({
-      data: { quantidade: 1, preco: 199.9, vendas_id: venda2.id, produtos_id: tenis.id },
+    prisma.itemvenda.upsert({
+      where: { id: 3 },
+      update: {},
+      create: { id: 3, quantidade: 1, preco: 199.9, vendas_id: venda2.id, produtos_id: tenis.id },
     }),
-    prisma.itemvenda.create({
-      data: { quantidade: 3, preco: 29.9, vendas_id: venda3.id, produtos_id: bone.id },
+    prisma.itemvenda.upsert({
+      where: { id: 4 },
+      update: {},
+      create: { id: 4, quantidade: 3, preco: 29.9, vendas_id: venda3.id, produtos_id: bone.id },
     }),
   ]);
 
   // Pagamentos (dependem de venda)
   await Promise.all([
-    prisma.pagamentos.create({
-      data: {
+    prisma.pagamentos.upsert({
+      where: { id: 1 },
+      update: {},
+      create: {
+        id: 1,
         metodo_pagamento: 'cartao_credito',
         valo_pagamento: 229.7,
         status_pagamento: 'aprovado',
@@ -203,8 +272,11 @@ async function main() {
         vendas_id: venda1.id,
       },
     }),
-    prisma.pagamentos.create({
-      data: {
+    prisma.pagamentos.upsert({
+      where: { id: 2 },
+      update: {},
+      create: {
+        id: 2,
         metodo_pagamento: 'boleto',
         valo_pagamento: 199.9,
         status_pagamento: 'pendente',
@@ -212,8 +284,11 @@ async function main() {
         vendas_id: venda2.id,
       },
     }),
-    prisma.pagamentos.create({
-      data: {
+    prisma.pagamentos.upsert({
+      where: { id: 3 },
+      update: {},
+      create: {
+        id: 3,
         metodo_pagamento: 'pix',
         valo_pagamento: 89.7,
         status_pagamento: 'aprovado',

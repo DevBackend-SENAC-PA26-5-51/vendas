@@ -33,6 +33,24 @@ services:
           exit 0
         }
 
+  seed:
+    image: gabrielpccosta/api-vendas:1.0.1-beta
+    container_name: ${APP_NAME:-vendas_api}-seed
+    restart: 'no'
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+    depends_on:
+      db:
+        condition: service_healthy
+    command:
+      - /bin/sh
+      - -c
+      - |
+        npx tsx prisma/seed.ts || {
+          echo "Aviso: Seed falhou. Continuando..."
+          exit 0
+        }
+
   db:
     image: ${MARIADB_IMAGE:-mariadb:11.4}
     container_name: ${APP_NAME:-vendas_api}_db
