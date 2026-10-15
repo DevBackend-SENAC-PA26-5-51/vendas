@@ -94,12 +94,13 @@ model pagamentos {
 }
 
 model produtos {
-  id         Int         @id @default(autoincrement())
-  nome       String?     @db.VarChar(50)
-  quantidade Float?      @db.Float
-  tipo       String?     @db.VarChar(45)
-  preco      Float?      @db.Float
-  itemvenda  itemvenda[]
+  id            Int            @id @default(autoincrement())
+  nome          String?        @db.VarChar(50)
+  quantidade    Float?         @db.Float
+  tipo          String?        @db.VarChar(45)
+  preco         Float?         @db.Float
+  itemvenda     itemvenda[]
+  movimentacoes movimentacoes[]
 }
 
 model transportadoras {
@@ -107,6 +108,22 @@ model transportadoras {
   nome    String?  @db.VarChar(50)
   contato String?  @db.VarChar(20)
   vendas  vendas[]
+}
+
+model movimentacoes {
+  id            Int       @id @default(autoincrement())
+  tipo          String    @db.VarChar(10)
+  produto_id    Int
+  quantidade    Float
+  preco_unitario Float?   @db.Float
+  data          DateTime  @default(now()) @db.Date
+  descricao     String?   @db.VarChar(255)
+  venda_id      Int?
+  produto       produtos  @relation(fields: [produto_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_movimentacoes_produtos1")
+  vendas        vendas?   @relation(fields: [venda_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_movimentacoes_vendas1")
+
+  @@index([produto_id], map: "fk_movimentacoes_produtos1_idx")
+  @@index([venda_id], map: "fk_movimentacoes_vendas1_idx")
 }
 
 model vendas {
@@ -117,6 +134,7 @@ model vendas {
   funcionarios_id    Int
   itemvenda          itemvenda[]
   pagamentos         pagamentos[]
+  movimentacoes      movimentacoes[]
   cliente            cliente         @relation(fields: [cliente_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_vendas_cliente")
   funcionarios       funcionarios    @relation(fields: [funcionarios_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_vendas_funcionarios1")
   transportadoras    transportadoras @relation(fields: [transportadoras_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_vendas_transportadoras1")
