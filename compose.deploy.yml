@@ -24,7 +24,14 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    command: ['npx', 'prisma', 'migrate', 'deploy']
+    command:
+      - /bin/sh
+      - -c
+      - |
+        npx prisma migrate deploy || {
+          echo "Aviso: Migração falhou. Continuando..."
+          exit 0
+        }
 
   db:
     image: ${MARIADB_IMAGE:-mariadb:11.4}
