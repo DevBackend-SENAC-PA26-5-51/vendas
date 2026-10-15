@@ -11,8 +11,12 @@ CREATE TABLE `cliente` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `cpf` VARCHAR(15) NULL,
     `nome` VARCHAR(100) NULL,
-    `contato` INTEGER NULL,
-    `endereco` VARCHAR(150) NULL,
+    `contato` VARCHAR(20) NULL,
+    `rua` VARCHAR(100) NULL,
+    `numero` INTEGER NULL,
+    `complemento` VARCHAR(100) NULL,
+    `cidade` VARCHAR(45) NULL,
+    `estado` VARCHAR(45) NULL,
     `email` VARCHAR(50) NULL,
 
     PRIMARY KEY (`id`)
@@ -47,7 +51,7 @@ CREATE TABLE `funcionarios` (
     `rg` VARCHAR(15) NULL,
     `data_nasc` DATE NULL,
     `estado_civil` VARCHAR(10) NULL,
-    `contato` INTEGER NULL,
+    `contato` VARCHAR(20) NULL,
     `endereco_id` INTEGER NOT NULL,
     `cargo_id` INTEGER NOT NULL,
     `departamento_id` INTEGER NOT NULL,
@@ -101,7 +105,7 @@ CREATE TABLE `produtos` (
 CREATE TABLE `transportadoras` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `nome` VARCHAR(50) NULL,
-    `contato` INTEGER NULL,
+    `contato` VARCHAR(20) NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

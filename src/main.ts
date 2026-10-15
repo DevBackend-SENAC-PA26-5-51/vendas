@@ -15,6 +15,7 @@ async function bootstrap() {
     .addTag('clientes', 'Cadastro e gestão de clientes')
     .addTag('produtos', 'Cadastro e gestão de produtos')
     .addTag('vendas', 'Registro e gestão de vendas')
+    .addTag('itemvenda', 'Itens das vendas')
     .addTag('estoque', 'Controle de estoque')
     .addTag('pagamentos', 'Gestão de pagamentos')
     .addTag('relatorios', 'Relatórios gerenciais')

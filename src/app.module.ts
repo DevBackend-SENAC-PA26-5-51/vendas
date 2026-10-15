@@ -9,9 +9,10 @@ import { VendasModule } from './vendas/vendas.module.js';
 import { PagamentosModule } from './pagamentos/pagamentos.module.js';
 import { RelatoriosModule } from './relatorios/relatorios.module.js';
 import { DashboardModule } from './dashboard/dashboard.module.js';
+import { ItemVendaModule } from './itemvenda/itemvenda.module.js';
 
 @Module({
-  imports: [PrismaModule, ClientesModule, ProdutosModule, EstoqueModule, VendasModule, PagamentosModule, RelatoriosModule, DashboardModule],
+  imports: [PrismaModule, ClientesModule, ProdutosModule, EstoqueModule, VendasModule, PagamentosModule, RelatoriosModule, DashboardModule, ItemVendaModule],
   controllers: [AppController],
   providers: [AppService],
 })
