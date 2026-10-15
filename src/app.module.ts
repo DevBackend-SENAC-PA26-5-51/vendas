@@ -12,9 +12,10 @@ import { DashboardModule } from './dashboard/dashboard.module.js';
 import { ItemVendaModule } from './itemvenda/itemvenda.module.js';
 import { FuncionariosModule } from './funcionarios/funcionarios.module.js';
 import { CargoModule } from './cargo/cargo.module.js';
+import { FluxoCaixaModule } from './fluxo-caixa/fluxo-caixa.module.js';
 
 @Module({
-  imports: [PrismaModule, ClientesModule, ProdutosModule, EstoqueModule, VendasModule, PagamentosModule, RelatoriosModule, DashboardModule, ItemVendaModule, FuncionariosModule, CargoModule],
+  imports: [PrismaModule, ClientesModule, ProdutosModule, EstoqueModule, VendasModule, PagamentosModule, RelatoriosModule, DashboardModule, ItemVendaModule, FuncionariosModule, CargoModule, FluxoCaixaModule],
   controllers: [AppController],
   providers: [AppService],
 })
