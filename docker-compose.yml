@@ -74,7 +74,7 @@ services:
       test:
         [
           'CMD-SHELL',
-          'mariadb-admin ping -h localhost -u root -p$${MARIADB_ROOT_PASSWORD} --silent',
+          'mariadb-admin ping -h localhost -u root -p${DB_ROOT_PASSWORD} --silent',
         ]
       interval: 10s
       timeout: 5s
