@@ -1,0 +1,21 @@
+name: Validar Branch de Origem
+
+on:
+  pull_request:
+    branches:
+      - main # Executa sempre que um PR for aberto para a main
+
+jobs:
+  check-source-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validar se a origem é a branch dev'
+        if: github.head_ref != 'dev'
+        run: |
+          echo "ERRO: Pull Requests para a branch 'main' devem vir obrigatoriamente da branch 'dev'."
+          echo "Sua branch de origem atual é: '${{ github.head_ref }}'"
+          exit 1 # Falha o job se não for a dev
+
+      - name: Sucesso
+        if: github.head_ref == 'dev'
+        run: echo "Validação concluída com sucesso! Origem correta."
