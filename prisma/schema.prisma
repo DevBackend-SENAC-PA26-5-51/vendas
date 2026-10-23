@@ -96,6 +96,8 @@ model pagamentos {
 model produtos {
   id            Int            @id @default(autoincrement())
   nome          String?        @db.VarChar(50)
+  descricao     String?        @db.VarChar(255)
+  codigo_barra  String?        @db.VarChar(50)
   quantidade    Float?         @db.Float
   tipo          String?        @db.VarChar(45)
   preco         Float?         @db.Float
@@ -116,7 +118,8 @@ model movimentacoes {
   produto_id    Int
   quantidade    Float
   preco_unitario Float?   @db.Float
-  data          DateTime  @default(now()) @db.Date
+  // data          DateTime  @default(now()) @db.Date
+  data          DateTime  @default(now()) @db.DateTime(0)
   descricao     String?   @db.VarChar(255)
   venda_id      Int?
   produto       produtos  @relation(fields: [produto_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_movimentacoes_produtos1")
