@@ -5,6 +5,20 @@ export class CreateProdutoDto {
   nome: string;
 
   @ApiProperty({
+    description: 'Descrição do produto',
+    example: 'Camiseta de algodão com estampa básica',
+    required: false,
+  })
+  descricao?: string;
+
+  @ApiProperty({
+    description: 'Código de barras do produto',
+    example: '7891234567890',
+    required: false,
+  })
+  codigo_barra?: string;
+
+  @ApiProperty({
     description: 'Quantidade em estoque',
     example: 100,
     required: false,

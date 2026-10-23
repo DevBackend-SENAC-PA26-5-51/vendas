@@ -129,22 +129,54 @@ async function main() {
     prisma.produtos.upsert({
       where: { id: 1 },
       update: {},
-      create: { id: 1, nome: 'Camiseta Básica', quantidade: 100, tipo: 'Vestuário', preco: 49.9 },
+      create: {
+        id: 1,
+        nome: 'Camiseta Básica',
+        descricao: 'Camiseta de algodão com estampa básica',
+        codigo_barra: '7891234567890',
+        quantidade: 100,
+        tipo: 'Vestuário',
+        preco: 49.9,
+      },
     }),
     prisma.produtos.upsert({
       where: { id: 2 },
       update: {},
-      create: { id: 2, nome: 'Calça Jeans', quantidade: 50, tipo: 'Vestuário', preco: 129.9 },
+      create: {
+        id: 2,
+        nome: 'Calça Jeans',
+        descricao: 'Calça jeans azul reto',
+        codigo_barra: '7891234567891',
+        quantidade: 50,
+        tipo: 'Vestuário',
+        preco: 129.9,
+      },
     }),
     prisma.produtos.upsert({
       where: { id: 3 },
       update: {},
-      create: { id: 3, nome: 'Tênis Esportivo', quantidade: 30, tipo: 'Calçados', preco: 199.9 },
+      create: {
+        id: 3,
+        nome: 'Tênis Esportivo',
+        descricao: 'Tênis para corrida com amortecimento',
+        codigo_barra: '7891234567892',
+        quantidade: 30,
+        tipo: 'Calçados',
+        preco: 199.9,
+      },
     }),
     prisma.produtos.upsert({
       where: { id: 4 },
       update: {},
-      create: { id: 4, nome: 'Boné', quantidade: 5, tipo: 'Acessórios', preco: 29.9 },
+      create: {
+        id: 4,
+        nome: 'Boné',
+        descricao: 'Boné ajustável com logo bordado',
+        codigo_barra: '7891234567893',
+        quantidade: 5,
+        tipo: 'Acessórios',
+        preco: 29.9,
+      },
     }),
   ]);
 

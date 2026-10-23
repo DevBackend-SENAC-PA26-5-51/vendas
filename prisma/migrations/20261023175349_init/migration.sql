@@ -94,6 +94,8 @@ CREATE TABLE `pagamentos` (
 CREATE TABLE `produtos` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `nome` VARCHAR(50) NULL,
+    `descricao` VARCHAR(255) NULL,
+    `codigo_barra` VARCHAR(50) NULL,
     `quantidade` FLOAT NULL,
     `tipo` VARCHAR(45) NULL,
     `preco` FLOAT NULL,
@@ -107,6 +109,22 @@ CREATE TABLE `transportadoras` (
     `nome` VARCHAR(50) NULL,
     `contato` VARCHAR(20) NULL,
 
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `movimentacoes` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `tipo` VARCHAR(10) NOT NULL,
+    `produto_id` INTEGER NOT NULL,
+    `quantidade` DOUBLE NOT NULL,
+    `preco_unitario` FLOAT NULL,
+    `data` DATETIME(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+    `descricao` VARCHAR(255) NULL,
+    `venda_id` INTEGER NULL,
+
+    INDEX `fk_movimentacoes_produtos1_idx`(`produto_id`),
+    INDEX `fk_movimentacoes_vendas1_idx`(`venda_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -141,6 +159,12 @@ ALTER TABLE `itemvenda` ADD CONSTRAINT `fk_itemvenda_vendas1` FOREIGN KEY (`vend
 
 -- AddForeignKey
 ALTER TABLE `pagamentos` ADD CONSTRAINT `fk_pagamentos_vendas1` FOREIGN KEY (`vendas_id`) REFERENCES `vendas`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE `movimentacoes` ADD CONSTRAINT `fk_movimentacoes_produtos1` FOREIGN KEY (`produto_id`) REFERENCES `produtos`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE `movimentacoes` ADD CONSTRAINT `fk_movimentacoes_vendas1` FOREIGN KEY (`venda_id`) REFERENCES `vendas`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE `vendas` ADD CONSTRAINT `fk_vendas_cliente` FOREIGN KEY (`cliente_id`) REFERENCES `cliente`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
