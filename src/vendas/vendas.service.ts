@@ -85,7 +85,7 @@ export class VendasService {
 
   async update(id: number, updateVendaDto: UpdateVendaDto) {
     await this.findOne(id);
-    const { ...vendaData } = updateVendaDto as any;
+    const { ...vendaData } = updateVendaDto;
 
     // Validação: Se atualizar as FKs, garantir que existam
     if (vendaData.cliente_id) {

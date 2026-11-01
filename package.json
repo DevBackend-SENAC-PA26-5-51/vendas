@@ -74,6 +74,8 @@
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
+    "preset": "ts-jest",
+    "tsconfig": "tsconfig.spec.js",
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],
