@@ -17,7 +17,7 @@ async function bootstrap() {
     .setDescription(
       'Documentação da API de Vendas — referência para os devs front-end. Use o botão "Try it out" para testar os endpoints.',
     )
-    .setVersion('1.1.2')
+    .setVersion('1.2.3')
     .addTag('clientes', 'Cadastro e gestão de clientes')
     .addTag('produtos', 'Cadastro e gestão de produtos')
     .addTag('vendas', 'Registro e gestão de vendas')
