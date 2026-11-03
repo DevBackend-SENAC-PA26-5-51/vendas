@@ -26,6 +26,7 @@ async function bootstrap() {
     .addTag('pagamentos', 'Gestão de pagamentos')
     .addTag('relatorios', 'Relatórios gerenciais')
     .addTag('dashboard', 'Dados agregados para dashboards')
+    .addTag('transportadora', 'Gestão de transportadoras')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document, {
